@@ -106,25 +106,51 @@ class Player {
 
     platforms.forEach((platform) => {
       // playerの底部がplatformの上部よりも上にあるかの判定
-      if (
-        player.position.y + player.height <= platform.position.y &&
+      if (player.position.y + player.height <= platform.position.y &&
+        
         // playerの底部が次のフレームでplatformの上部に達するかの判定
+        player.position.y + player.height + player.velocity.y >= platform.position.y &&
 
-        player.position.y + player.height + player.velocity.y >=
-          platform.position.y &&
         // playerの右側がplatformの左側よりも右にあるかの判定
-
         player.position.x + player.width >= platform.position.x &&
+        
         // playerの左側がplatformの右側よりも左にあるかの判定
-
         player.position.x <= platform.position.x + platform.width
       ) {
         player.velocity.y = 0;
       } else if (
+        player.position.y + player.height <= platform.position.y + platform.height &&
+
+        player.position.y + player.height + player.velocity.y <= platform.position.y + platform.height &&
+        
+        player.position.x + player.width >= platform.position.x &&
+        
+        player.position.x <= platform.position.x + platform.width
+      ) {
+        player.velocity.y = 0;
+      } else if (
+        // playerの左側がplatformの右側よりも左にあるかの判定
         player.position.x + player.width <= platform.position.x &&
-        player.position.x + player.width + player.velocity.x >=
-          platform.position.x &&
+
+        // playerの右側が次のフレームでplatformの左側に達するかの判定
+        player.position.x + player.width + player.velocity.x >= platform.position.x &&
+
+        // playerの上側がplatformの下側よりも上にあるかの判定
         player.position.y + player.height >= platform.position.y &&
+
+        // playerの下側がplatformの上側よりも下にあるかの判定
+        player.position.y <= platform.position.y + platform.height
+      ) {
+        player.velocity.x = 0;
+      } else if (
+        player.position.x + player.width >= platform.position.x + platform.width &&
+
+        player.position.x + player.width + player.velocity.x >= platform.position.x + platform.width &&
+
+        // playerの上側がplatformの下側よりも上にあるかの判定
+        player.position.y + player.height >= platform.position.y &&
+
+        // playerの下側がplatformの上側よりも下にあるかの判定
         player.position.y <= platform.position.y + platform.height
       ) {
         player.velocity.x = 0;
@@ -166,6 +192,32 @@ class Enemy {
 
   draw() {
     c.fillStyle = "black";
+    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+
+  update() {
+    this.draw();
+    this.position.x -= 2;
+  }
+}
+
+class mashroom {
+  constructor(x, y) {
+    this.position = {
+      x,
+      y,
+    };
+    this.velocity = {
+      x: 0,
+      y: 1,
+    };
+
+    this.width = 60;
+    this.height = 60;
+  }
+
+  draw() {
+    c.fillStyle = "brown";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
   }
 
@@ -229,6 +281,11 @@ const enemies = [
   new Enemy(1200, 900),
 ];
 
+// mashroomクラスのインスタンスを生成する
+const mashrooms = [
+  new mashroom(2000, 900),
+];
+
 // オブジェクトリテラルを使用してkeyの状態を管理する
 // 初期値はfalseを設定する
 const keys = {
@@ -263,6 +320,11 @@ function animate() {
   platforms.forEach((platform) => {
     platform.draw();
   });
+
+  mashrooms.forEach((mashrooms) => {
+    mashrooms.update();
+  }
+  );
 
   // drawGround関数を呼び出して、地面を描画する
   drawGround();
