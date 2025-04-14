@@ -15,6 +15,8 @@ canvas.height = 1080;
 // 重力の定数定義
 const gravity = 0.3;
 
+let playerStatus;
+
 // 2⃣playerの実装
 // playerクラスを定義する
 class Player {
@@ -36,9 +38,18 @@ class Player {
       y: 1,
     };
 
-    // playerの幅と高さを設定する
-    this.width = 60;
-    this.height = 60;
+    this.playerUpdate();
+  }
+
+  // playerの幅と高さを設定する
+  playerUpdate() {
+    if (playerStatus !== "super") {
+      this.width = 60;
+      this.height = 60;
+    } else if (playerStatus === "super") {
+      this.width = 60;
+      this.height = 120;
+    }
   }
 
   // drawメソッドはplayerを描画するためのメソッド
@@ -46,6 +57,9 @@ class Player {
     // fillStyleは塗りつぶしの色を設定する
     c.fillStyle = "red";
 
+    //
+    this.playerUpdate();
+    
     // fillRectは矩形を描画するメソッド
     // 処理時の位置を指定し、インスタンスの幅と高さで描画する
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
@@ -53,6 +67,7 @@ class Player {
 
   // updateメソッドはplayerの位置を更新するためのメソッド
   update() {
+
     // playerの位置を更新して描画する
     this.draw();
 
@@ -105,70 +120,68 @@ class Player {
     }
 
     platforms.forEach((platform) => {
-      // playerの底部がplatformの上部よりも上にあるかの判定
-      if (player.position.y + player.height <= platform.position.y &&
-        
-        // playerの底部が次のフレームでplatformの上部に達するかの判定
-        player.position.y + player.height + player.velocity.y >= platform.position.y &&
-
-        // playerの右側がplatformの左側よりも右にあるかの判定
-        player.position.x + player.width >= platform.position.x &&
-        
-        // playerの左側がplatformの右側よりも左にあるかの判定
-        player.position.x <= platform.position.x + platform.width
-      ) {
-        player.velocity.y = 0;
-      } else if (
-        player.position.y + player.height <= platform.position.y + platform.height &&
-
-        player.position.y + player.height + player.velocity.y <= platform.position.y + platform.height &&
-        
-        player.position.x + player.width >= platform.position.x &&
-        
-        player.position.x <= platform.position.x + platform.width
-      ) {
-        player.velocity.y = 0;
-      } else if (
-        // playerの左側がplatformの右側よりも左にあるかの判定
-        player.position.x + player.width <= platform.position.x &&
-
-        // playerの右側が次のフレームでplatformの左側に達するかの判定
-        player.position.x + player.width + player.velocity.x >= platform.position.x &&
-
-        // playerの上側がplatformの下側よりも上にあるかの判定
-        player.position.y + player.height >= platform.position.y &&
-
-        // playerの下側がplatformの上側よりも下にあるかの判定
-        player.position.y <= platform.position.y + platform.height
-      ) {
-        player.velocity.x = 0;
-      } else if (
-        player.position.x + player.width >= platform.position.x + platform.width &&
-
-        player.position.x + player.width + player.velocity.x >= platform.position.x + platform.width &&
-
-        // playerの上側がplatformの下側よりも上にあるかの判定
-        player.position.y + player.height >= platform.position.y &&
-
-        // playerの下側がplatformの上側よりも下にあるかの判定
-        player.position.y <= platform.position.y + platform.height
-      ) {
-        player.velocity.x = 0;
-      }
-    });
-
-    // 敵との衝突
-    enemies.forEach((enemy, index) => {
+      // プレイヤーがプラットフォームの上にいるかの判定
       if (
-        player.position.y + player.height <= enemy.position.y &&
-        player.position.y + player.height + player.velocity.y >=
-          enemy.position.y &&
-        player.position.x + player.width >= enemy.position.x &&
-        player.position.x <= enemy.position.x + enemy.width
+        player.position.y + player.height <= platform.position.y &&
+        player.position.y + player.height + player.velocity.y >= platform.position.y &&
+        player.position.x + player.width >= platform.position.x &&
+        player.position.x <= platform.position.x + platform.width
       ) {
-        enemies.splice(index, 1);
+        console.log("ue");
+        player.velocity.y = 0;
+      }
+      // プレイヤーがプラットフォームの下にいるかの判定
+      else if (
+        // プレイヤーの位置が
+        player.position.y <= platform.position.y + platform.height &&
+        player.position.y + player.velocity.y <= platform.position.y + platform.height &&
+        player.position.x + player.width >= platform.position.x &&
+        player.position.x <= platform.position.x + platform.width &&
+        // playerがジャンプしているときのみ
+        player.velocity.y < 0 &&
+        // プレイヤーの位置がプラットフォームの上にある場合以外
+        !(player.position.y + player.height <= platform.position.y)
+      ) {
+        console.log("sita");
+        player.velocity.y = 1;
+      }
+      // プレイヤーがプラットフォームの左側にいるかの判定
+      else if (
+        player.position.x + player.width <= platform.position.x &&
+        player.position.x + player.width + player.velocity.x >= platform.position.x &&
+        player.position.y + player.height >= platform.position.y &&
+        player.position.y <= platform.position.y + platform.height
+      ) {
+        console.log("hidari");
+        player.velocity.x = 0;
+      }
+      // プレイヤーがプラットフォームの右側にいるかの判定
+      else if (
+        player.position.x >= platform.position.x + platform.width &&
+        player.position.x + player.velocity.x >= platform.position.x + platform.width &&
+        player.position.y + player.height >= platform.position.y &&
+        player.position.y <= platform.position.y + platform.height
+      ) {
+        console.log("migi");
+        player.velocity.x = 0;
+      }
+    })
+
+    // キノコとの当たり判定
+    mashrooms.forEach((mashroom) => {    
+      if (
+        this.height === 60 &&
+        player.position.y + player.height >= mashroom.position.y &&
+        player.position.y <= mashroom.position.y + mashroom.height &&
+        player.position.x + player.width >= mashroom.position.x &&
+        player.position.x <= mashroom.position.x + mashroom.width
+      ) {
+        console.log("hit4");
+        playerStatus = "super";
+        console.log(playerStatus);
       }
     });
+    
   }
 }
 
