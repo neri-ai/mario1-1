@@ -1,4 +1,6 @@
-import { Mario } from "./mario.js";
+import { Mario } from "./Player/mario.js";
+import { drawGround } from "./Blocks/drawGround.js";
+import { inputKey } from "./input/inputKey.js";
 
 // canvasの取得
 const canvas = document.querySelector("canvas");
@@ -26,10 +28,12 @@ function gameLoop() {
         // 毎フレーム画面を空白に
         c.clearRect(0, 0, 1920, 1080);
         
-        mario.update();
+        mario.update(c);
         mario.draw(c);
+        drawGround(c, canvas);
 }
 
 // ゲームの開始
 init();
 gameLoop();
+inputKey();
