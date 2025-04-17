@@ -21,7 +21,7 @@ export class Mario {
                 c.fillRect(this.position.x, this.position.y, this.width, this.height)
         };
 
-        update(c){
+        update(c, input){
                 this.draw(c);
 
                 // 落下速度がある場合はy軸方向にpositionを更新する
@@ -34,6 +34,11 @@ export class Mario {
                         this.velocity.y += gravity;
                 } else {
                         this.velocity.y = 0;
+                }
+
+                // marioの位置更新
+                if (input === "right") {
+                        this.velocity.x = 5;
                 }
         };
 };

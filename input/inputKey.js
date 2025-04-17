@@ -9,7 +9,7 @@ export function inputKey() {
                         case "a":
                         console.log("a down");
                         // keysオブジェクトのleftプロパティのpressedプロパティをtrueにする
-                        keys.left.pressed = true;
+                        // keys.left.pressed = true;
                         // breakeを使用しないと、次のcaseも実行される。
                         break;
                 
@@ -17,13 +17,14 @@ export function inputKey() {
                         case "d":
                         console.log("d down");
                         // keysオブジェクトのrightプロパティのpressedプロパティをtrueにする
-                        keys.right.pressed = true;
+                        // keys.right.pressed = true;
+                        return "right";
                         break;
                 
                         // wキーが押された場合
                         case "w":
                         console.log("w down");
-                        player.velocity.y -= 15;
+                        // player.velocity.y -= 15;
                         break;
                 
                         // sキーが押された場合
@@ -40,21 +41,21 @@ export function inputKey() {
                         // aキーが離れた場合
                         case "a":
                         console.log("a up");
-                        keys.left.pressed = false;
+                        // keys.left.pressed = false;
                         // brakeを使用しないと、次のcaseも実行される。
                         break;
                 
                         // dキーが離れた場合
                         case "d":
                         console.log("d up");
-                        keys.right.pressed = false;
+                        // keys.right.pressed = false;
                         // player.velocity.x = 0
                         break;
                 
                         // wキーが離れた場合
                         case "w":
                         console.log("w up");
-                        keys.up.pressed = false;
+                        // keys.up.pressed = false;
                         break;
                 
                         // sキーが離れた場合

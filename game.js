@@ -27,8 +27,13 @@ function gameLoop() {
 
         // 毎フレーム画面を空白に
         c.clearRect(0, 0, 1920, 1080);
+
+        // 入力値の取得
+        const input = inputKey();
+
+        console.log(input);
         
-        mario.update(c);
+        mario.update(c, input);
         mario.draw(c);
         drawGround(c, canvas);
 }
@@ -36,4 +41,3 @@ function gameLoop() {
 // ゲームの開始
 init();
 gameLoop();
-inputKey();
