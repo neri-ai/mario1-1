@@ -1,5 +1,5 @@
 // 重力の定義
-const gravity = 0.35;
+const gravity = 0.3;
 
 export class Mario {
         constructor(x, y, w, h) {
@@ -36,9 +36,21 @@ export class Mario {
                         this.velocity.y = 0;
                 }
 
-                // marioの位置更新
-                if (input === "right") {
+                // marioのx軸位置更新
+                if (input.left.pressed === true) {
+                        this.velocity.x = -5;
+                } else if (input.right.pressed === true) {
                         this.velocity.x = 5;
+                } else {
+                        this.velocity.x = 0;
                 }
+
+                // marioのy軸位置更新
+                if (input.jump.pressed === true && this.velocity.y === 0) {
+                        this.velocity.y = -15;
+                }
+
+                // x軸方向に速度がある場合はx軸のpositionを更新する
+                this.position.x += this.velocity.x
         };
 };

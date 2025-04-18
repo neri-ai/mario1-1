@@ -1,11 +1,9 @@
 export function inputKey() {
-        constractor() {
-                this.keys = {
-                        right: {pressed: false},
-                        left:  {pressed: false},
-                        jump:  {pressed: false}
-                };
-        }
+        const keys = {
+                right: {pressed: false},
+                left:  {pressed: false},
+                jump:  {pressed: false}
+        };
         // windowのkeydownイベントをトリガーにして、処理の実行を行う
         // アロー関数を使用して、eventオブジェクトに引数を渡す。アロー関数とは、関数を簡潔に書くための構文
         window.addEventListener("keydown", (event) => {
@@ -15,7 +13,7 @@ export function inputKey() {
                         // aキーが押された場合
                         case "a":
                         console.log("a down");
-                        this.keys.left.pressed = true;
+                        keys.left.pressed = true;
                         // keysオブジェクトのleftプロパティのpressedプロパティをtrueにする
                         // keys.left.pressed = true;
                         // breakeを使用しないと、次のcaseも実行される。
@@ -26,14 +24,14 @@ export function inputKey() {
                         console.log("d down");
                         // keysオブジェクトのrightプロパティのpressedプロパティをtrueにする
                         // keys.right.pressed = true;
-                        this.keys.right.pressed = true;
+                        keys.right.pressed = true;
                         break;
                 
                         // wキーが押された場合
                         case "w":
                         console.log("w down");
                         // player.velocity.y -= 15;
-                        this.keys.jump.pressed = true;
+                        keys.jump.pressed = true;
                         break;
                 
                         // sキーが押された場合
@@ -52,6 +50,7 @@ export function inputKey() {
                         console.log("a up");
                         // keys.left.pressed = false;
                         // brakeを使用しないと、次のcaseも実行される。
+                        keys.left.pressed = false;
                         break;
                 
                         // dキーが離れた場合
@@ -59,12 +58,13 @@ export function inputKey() {
                         console.log("d up");
                         // keys.right.pressed = false;
                         // player.velocity.x = 0
+                        keys.right.pressed = false;
                         break;
                 
                         // wキーが離れた場合
                         case "w":
                         console.log("w up");
-                        keys.up.pressed = false;
+                        keys.jump.pressed = false;
                         break;
                 
                         // sキーが離れた場合
@@ -73,4 +73,7 @@ export function inputKey() {
                         break;
                 }
         });
+
+        // keysを返す
+        return keys;
 }

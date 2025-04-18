@@ -15,6 +15,9 @@ canvas.height = 1080;
 // marioの初期値
 const mario = new Mario(150, 100, 60, 60);
 
+// 入力値の取得
+const input = inputKey();
+
 // ゲームロジックの実装
 function init() {
         
@@ -27,11 +30,6 @@ function gameLoop() {
 
         // 毎フレーム画面を空白に
         c.clearRect(0, 0, 1920, 1080);
-
-        // 入力値の取得
-        const input = inputKey();
-
-        console.log(input);
         
         mario.update(c, input);
         mario.draw(c);
