@@ -28,6 +28,7 @@ function init() {
         // normalBlockのインスタンスを生成
         normalBlocks = [
                 new normalBlock(840, 720, 60, 60),
+                new normalBlock(1020, 840, 120, 120),
         ];
 }
 
@@ -39,8 +40,8 @@ function gameLoop() {
         // 毎フレーム画面を空白に
         c.clearRect(0, 0, 1920, 1080);
         
-        mario.update(c, input);
-        mario.draw(c);
+        mario.update(c, input, normalBlocks);
+        
         normalBlocks.forEach((block) => {
                 block.draw(c);
                 block.update(c);

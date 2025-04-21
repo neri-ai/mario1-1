@@ -58,6 +58,7 @@ export function inputKey() {
                         console.log("d up");
                         // keys.right.pressed = false;
                         // player.velocity.x = 0
+                        // 
                         keys.right.pressed = false;
                         break;
                 

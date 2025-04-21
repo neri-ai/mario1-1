@@ -21,7 +21,7 @@ export class Mario {
                 c.fillRect(this.position.x, this.position.y, this.width, this.height)
         };
 
-        update(c, input){
+        update(c, input, normalBlocks) {
                 this.draw(c);
 
                 // 落下速度がある場合はy軸方向にpositionを更新する
@@ -36,13 +36,36 @@ export class Mario {
                         this.velocity.y = 0;
                 }
 
-                // marioのx軸位置更新
-                if (input.left.pressed === true) {
-                        this.velocity.x = -5;
-                } else if (input.right.pressed === true) {
-                        this.velocity.x = 5;
+                if (normalBlocks.collision.left === false) {
+                        // marioのx軸位置更新
+                        if (input.left.pressed === true && this.position.x > 150) {
+                                this.velocity.x = -5;
+                        }
                 } else {
                         this.velocity.x = 0;
+                }
+
+                if (normalBlocks.collision.right === false) {
+                        if (input.right.pressed === true && this.position.x < 400) {
+                                this.velocity.x = 5;
+                        }
+                } else {
+                        this.velocity.x = 0;
+                }
+                
+                                this.velocity.x = 0;
+
+                                // スクロールの処理
+                                if (input.left.pressed === true) {
+                                        normalBlocks.forEach((block) => {
+                                                block.position.x += 5;
+                                        });
+                                } else if (input.right.pressed === true) {
+                                        normalBlocks.forEach((block) => {
+                                                block.position.x -= 5;
+                                        });
+                                }
+                        }
                 }
 
                 // marioのy軸位置更新

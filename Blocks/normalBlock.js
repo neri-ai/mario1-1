@@ -20,6 +20,12 @@ export class normalBlock {
 
 // MarioとnormalBlockの衝突判定
 export function collisionDetection(mario, normalBlocks) {
+        // 毎フレーム当たり判定の初期化
+        normalBlocks.collision.right = false;
+        normalBlocks.collision.left = false;
+        normalBlocks.collision.up = false;
+        normalBlocks.collision.down = false;
+        
         normalBlocks.forEach(normalBlock => {
                 // プレイヤーがプラットフォームの上にいるかの判定
                 if (
@@ -54,7 +60,7 @@ export function collisionDetection(mario, normalBlocks) {
                         mario.position.y <= normalBlock.position.y + normalBlock.height
                 ) {
                         console.log("hidari");
-                        mario.velocity.x = 0;
+                        normalBlocks.collision.left = true;
                 }
                 // プレイヤーがプラットフォームの右側にいるかの判定
                 else if (
@@ -64,7 +70,7 @@ export function collisionDetection(mario, normalBlocks) {
                         mario.position.y <= normalBlock.position.y + normalBlock.height
                 ) {
                         console.log("migi");
-                        mario.velocity.x = 0;
+                        normalBlocks.collision.right = true;
                 }
         });
 }
