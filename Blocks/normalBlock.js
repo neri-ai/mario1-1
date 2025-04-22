@@ -6,26 +6,20 @@ export class normalBlock {
   };
     this.width = w;
     this.height = h;
-  };
+  }
 
   draw(c) {
     c.fillStyle = "blue";
     c.fillRect(this.position.x, this.position.y, this.width, this.height);
-  };
+  }
 
   update(c) {
     this.draw(c);
-  };
+  }
 }
 
 // MarioとnormalBlockの衝突判定
 export function collisionDetection(mario, normalBlocks) {
-        // 毎フレーム当たり判定の初期化
-        normalBlocks.collision.right = false;
-        normalBlocks.collision.left = false;
-        normalBlocks.collision.up = false;
-        normalBlocks.collision.down = false;
-        
         normalBlocks.forEach(normalBlock => {
                 // プレイヤーがプラットフォームの上にいるかの判定
                 if (
@@ -60,7 +54,7 @@ export function collisionDetection(mario, normalBlocks) {
                         mario.position.y <= normalBlock.position.y + normalBlock.height
                 ) {
                         console.log("hidari");
-                        normalBlocks.collision.left = true;
+                        mario.velocity.x = 0;
                 }
                 // プレイヤーがプラットフォームの右側にいるかの判定
                 else if (
@@ -70,7 +64,7 @@ export function collisionDetection(mario, normalBlocks) {
                         mario.position.y <= normalBlock.position.y + normalBlock.height
                 ) {
                         console.log("migi");
-                        normalBlocks.collision.right = true;
+                        mario.velocity.x = 0;   
                 }
         });
 }

@@ -1,3 +1,5 @@
+import { collisionDetection } from "../Blocks/normalBlock.js";
+
 // 重力の定義
 const gravity = 0.3;
 
@@ -27,6 +29,9 @@ export class Mario {
                 // 落下速度がある場合はy軸方向にpositionを更新する
                 this.position.y += this.velocity.y;
 
+                // 当たり判定の実装
+                collisionDetection(this, normalBlocks);
+
                 // marioの位置がcanvasのそこに達したら、y軸方向の速度を0にする
                 // marioの位置+playerの速度がページの高さより小さい場合
                 // 地面分の高さを引く
@@ -36,35 +41,21 @@ export class Mario {
                         this.velocity.y = 0;
                 }
 
-                if (normalBlocks.collision.left === false) {
-                        // marioのx軸位置更新
-                        if (input.left.pressed === true && this.position.x > 150) {
-                                this.velocity.x = -5;
-                        }
-                } else {
-                        this.velocity.x = 0;
-                }
-
-                if (normalBlocks.collision.right === false) {
-                        if (input.right.pressed === true && this.position.x < 400) {
+                if (input.left.pressed === true && this.position.x > 150) {
+                                this.velocity.x = -5
+                } else if (input.right.pressed === true && this.position.x < 400) {
                                 this.velocity.x = 5;
-                        }
                 } else {
                         this.velocity.x = 0;
-                }
-                
-                                this.velocity.x = 0;
-
-                                // スクロールの処理
-                                if (input.left.pressed === true) {
-                                        normalBlocks.forEach((block) => {
-                                                block.position.x += 5;
-                                        });
-                                } else if (input.right.pressed === true) {
-                                        normalBlocks.forEach((block) => {
-                                                block.position.x -= 5;
-                                        });
-                                }
+                        // スクロールの処理
+                        if (input.left.pressed === true) {
+                                normalBlocks.forEach((block) => {
+                                        block.position.x += 5;
+                                });
+                        } else if (input.right.pressed === true) {
+                                normalBlocks.forEach((block) => {
+                                        block.position.x -= 5;
+                                });
                         }
                 }
 
