@@ -3,6 +3,10 @@ import { collisionDetection } from "../Blocks/normalBlock.js";
 // 重力の定義
 const gravity = 0.3;
 
+// マリオの画像
+let marioImg = new Image();
+marioImg.src = "sprite.png";
+
 export class Mario {
         constructor(x, y, w, h) {
                 this.width = w
@@ -19,8 +23,7 @@ export class Mario {
         };
 
         draw(c) {
-                c.fillStyle = this.color;
-                c.fillRect(this.position.x, this.position.y, this.width, this.height)
+                c.drawImage(marioImg, 0, 32, 16, 16, this.position.x, this.position.y, this.width, this.height);
         };
 
         update(c, input, normalBlocks) {

@@ -1,3 +1,7 @@
+//
+let normalBlockImage = new Image();
+normalBlockImage.src = "sprite.png";
+
 export class normalBlock {
   constructor(x, y, w, h) {
     this.position = {
@@ -9,8 +13,7 @@ export class normalBlock {
   }
 
   draw(c) {
-    c.fillStyle = "blue";
-    c.fillRect(this.position.x, this.position.y, this.width, this.height);
+    c.drawImage(normalBlockImage, 48, 368, 16, 16, this.position.x, this.position.y, this.width, this.height);
   }
 
   update(c) {
