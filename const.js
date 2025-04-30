@@ -1,0 +1,14 @@
+//
+//  定数の定義用
+// 
+
+const GAME_FPS = 1000/60;
+const SCREEN_SIZE_W = 256;
+const SCREEN_SIZE_H = 224;
+
+const MAP_SIZE_W = SCREEN_SIZE_W / 16; // マップの横サイズ
+const MAP_SIZE_H = SCREEN_SIZE_H / 16; // マップの縦サイズ
+
+// マップデータのブロックの数
+const FIELD_SIZE_W = 256;
+const FIELD_SIZE_H = 14;
