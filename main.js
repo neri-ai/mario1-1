@@ -33,7 +33,7 @@ let chImg = new Image();
 chImg.src = "sprite.png";
 //chImg.onload = draw;
 
-//キーボード
+//キーボードの状態を管理するオブジェクト
 let keyb={};
 
 //おじさんを作る
@@ -45,11 +45,16 @@ let field = new Field();
 // ブロックのオブジェクト
 let block = [];
 
+// アイテムのリストを作る
 let item = [];
 
+// オブジェクトを更新する関数
 function updateObj(obj) {
+	// 配列を逆順で処理
 	for (let i = obj.length-1; i >= 0; i--) {
+		// 各オブジェクトの状態を更新
 		obj[i].update();
+		// 削除フラグが立っているオブジェクトを配列から削除
 		if(obj[i].kill)obj.splice(i, 1);
 	}
 }
@@ -57,26 +62,34 @@ function updateObj(obj) {
 //更新処理
 function update()
 {
+	// フィールドの状態を更新
 	field.update();
-	
+
+	// ブロックの状態を更新
 	updateObj(block);
+
+	// アイテムの状態を更新
 	updateObj(item);
 
+	// おじさんの状態を更新
 	ojisan.update();
 }
 
 //スプライトの描画
 function drawSprite(snum,x,y)
 {
+	// スプライトのx座標を計算
 	let sx = (snum&15)<<4;
+	// スプライトのy座標を計算
 	let sy = (snum>>4)<<4;
 	
-	
+	// 仮想画面にスプライトを描画
 	vcon.drawImage(chImg,sx,sy,16,32, x,y,16,32);
 }
 
+// オブジェクトを描画する関数
 function drawObj(obj) {
-	// スプライトのブロックを表示
+	// 配列内全てのオブジェクトを描画
 	for (let i = 0; i < obj.length; i++) {
 		obj[i].draw();
 	}
@@ -87,11 +100,13 @@ function draw()
 {
 	//画面を水色でクリア
 	vcon.fillStyle="#66AAFF";
+	// 仮想画面を塗りつぶす
 	vcon.fillRect(0,0,SCREEN_SIZE_W,SCREEN_SIZE_H);
 
 	//フィールドを描画
 	field.draw();
 
+	// ブロックとアイテムを描画
 	drawObj(block);
 	drawObj(item);
 
@@ -115,29 +130,37 @@ function draw()
 //ループ開始
 window.onload = function()
 {
+	// ゲーム開始の時間を記録
 	startTime = performance.now();
+	// メインループを開始
 	mainLoop();
 }
 
 //メインループ
 function mainLoop()
 {
+	// 現在の時間を取得
 	let nowTime  = performance.now();
+	// フレームカウントを計算
 	let nowFrame = (nowTime-startTime) / GAME_FPS;
-	
+
+	// フレームが進んでいる場合
 	if( nowFrame > frameCount )
 	{
 		let c=0;
+		// 必要な回数だけ更新処理を実行
 		while( nowFrame > frameCount )
 		{
 			frameCount++;
 			//更新処理
 			update();
+			// 最大4回まで更新
 			if( ++c>=4 )break;
 		}
 		//描画処理
 		draw();
 	}
+	// 毎フレームの処理を実行
 	requestAnimationFrame(mainLoop);
 }
 
@@ -146,10 +169,10 @@ function mainLoop()
 //キーボードが押された時に呼ばれる
 document.onkeydown = function(e)
 {
-	if(e.keyCode == 37)keyb.Left  = true;
-	if(e.keyCode == 39)keyb.Right = true;
-	if(e.keyCode == 90)keyb.BBUTTON = true;
-	if(e.keyCode == 88)keyb.ABUTTON = true;
+	if(e.key == "a")keyb.Left  = true;
+	if(e.key == "d")keyb.Right = true;
+	if(e.key == "s")keyb.BBUTTON = true;
+	if(e.key == "w")keyb.ABUTTON = true;
 
 	// if(e.keyCode == 65) {
 	// 	block.push(new Block(368,5,5));
@@ -163,8 +186,8 @@ document.onkeydown = function(e)
 //キーボードが離された時に呼ばれる
 document.onkeyup = function(e)
 {
-	if(e.keyCode == 37)keyb.Left  = false;
-	if(e.keyCode == 39)keyb.Right = false;
-	if(e.keyCode == 90)keyb.BBUTTON = false;
-	if(e.keyCode == 88)keyb.ABUTTON = false;
+	if(e.key == "a")keyb.Left  = false;
+	if(e.key == "d")keyb.Right = false;
+	if(e.key == "s")keyb.BBUTTON = false;
+	if(e.key == "w")keyb.ABUTTON = false;
 }
