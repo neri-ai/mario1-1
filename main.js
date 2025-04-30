@@ -2,28 +2,33 @@
 // const SCREEN_SIZE_W = 256;
 // const SCREEN_SIZE_H = 224;
 
+// 加増画面を作成
 let vcan = document.createElement("canvas");
 let vcon = vcan.getContext("2d");
 
+// 実際の画面を取得
 let can = document.getElementById("can");
 let con = can.getContext("2d");
 
+// 仮想画面と実画面のサイズを設定
 vcan.width  = SCREEN_SIZE_W;
 vcan.height = SCREEN_SIZE_H;
 
 can.width  = SCREEN_SIZE_W*3;
 can.height = SCREEN_SIZE_H*3;
 
+//　実画面の画像をぼやけさせない設定 
 con.mozimageSmoothingEnabled    = false;
 con.msimageSmoothingEnabled     = false;
 con.webkitimageSmoothingEnabled = false;
 con.imageSmoothingEnabled       = false;
 
 
-//フレームレート維持
+//フレームカウントと開始時間を初期化
 let frameCount = 0;
-let statTime;
+let startTime;
 
+// スプライト画像の読み込み
 let chImg = new Image();
 chImg.src = "sprite.png";
 //chImg.onload = draw;
@@ -40,14 +45,23 @@ let field = new Field();
 // ブロックのオブジェクト
 let block = [];
 
+let item = [];
+
+function updateObj(obj) {
+	for (let i = obj.length-1; i >= 0; i--) {
+		obj[i].update();
+		if(obj[i].kill)obj.splice(i, 1);
+	}
+}
+
 //更新処理
 function update()
 {
 	field.update();
-	for (let i = block.length-1; i >= 0; i--) {
-		block[i].update();
-		if(block[i].kill)block.splice(i, 1);
-	}
+	
+	updateObj(block);
+	updateObj(item);
+
 	ojisan.update();
 }
 
@@ -61,6 +75,13 @@ function drawSprite(snum,x,y)
 	vcon.drawImage(chImg,sx,sy,16,32, x,y,16,32);
 }
 
+function drawObj(obj) {
+	// スプライトのブロックを表示
+	for (let i = 0; i < obj.length; i++) {
+		obj[i].draw();
+	}
+}
+
 //描画処理
 function draw()
 {
@@ -71,10 +92,8 @@ function draw()
 	//フィールドを描画
 	field.draw();
 
-	// スプライトのブロックを表示
-	for (let i = 0; i < block.length; i++) {
-		block[i].draw();
-	}
+	drawObj(block);
+	drawObj(item);
 
 	//おじさんを表示
 	ojisan.draw();

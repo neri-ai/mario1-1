@@ -41,16 +41,20 @@ class Block {
         draw() {
                 if (this.kill)return;
 
-                let sx = (this.bl&15)<<4;
-	        let sy = (this.bl>>4)<<4;
+                let an = this.bl;
+                if(this.ty==0)an=this.bl;
+                else an=388 + ((frameCount>>4)&1);
+
+                let sx = (an&15)<<4;
+	        let sy = (an>>4)<<4;
 	
                 let px = (this.x>>4) - (field.scx);
                 let py = (this.y>>4) - (field.scy);
 
                 if(this.ty==0) {
-                const anim = [0,2,4,5,6,5,4,2,0,-2];
+                        const anim = [0,2,4,5,6,5,4,2,0,-2];
 
-                py -= anim[ this.count ];
+                        py -= anim[ this.count ];
                 }
 
 	        vcon.drawImage(chImg,sx,sy,16,16, px,py,16,16);
