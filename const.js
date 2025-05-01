@@ -75,6 +75,5 @@ class Sprite{
                 top1 <= bottom2 &&
                 bottom1 >= top2
         )
+        }
 }
-}
-

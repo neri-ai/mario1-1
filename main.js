@@ -48,6 +48,8 @@ let block = [];
 // アイテムのリストを作る
 let item = [];
 
+let enemies = [new Enemy(96, 20, 192, -16, 0)];	
+
 // オブジェクトを更新する関数
 function updateObj(obj) {
 	// 配列を逆順で処理
@@ -70,6 +72,9 @@ function update()
 
 	// アイテムの状態を更新
 	updateObj(item);
+
+	// 敵の状態を更新
+	updateObj(enemies);
 
 	// おじさんの状態を更新
 	ojisan.update();
@@ -109,6 +114,7 @@ function draw()
 	// ブロックとアイテムを描画
 	drawObj(block);
 	drawObj(item);
+	drawObj(enemies);
 
 	//おじさんを表示
 	ojisan.draw();
