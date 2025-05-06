@@ -47,6 +47,12 @@ let block = [];
 
 let item = [];
 
+let enemy = [];	
+
+// Enemyインスタンスを生成してenemy配列に追加
+enemy.push(new Enemy(96, 10, 128, -1, 0)); // 左に移動する敵
+enemy.push(new Enemy(96, 20, 128, -1, 0));  // 右に移動する敵
+
 function updateObj(obj) {
 	for (let i = obj.length-1; i >= 0; i--) {
 		obj[i].update();
@@ -61,6 +67,7 @@ function update()
 	
 	updateObj(block);
 	updateObj(item);
+	updateObj(enemy);
 
 	ojisan.update();
 }
@@ -94,6 +101,7 @@ function draw()
 
 	drawObj(block);
 	drawObj(item);
+	drawObj(enemy);
 
 	//おじさんを表示
 	ojisan.draw();
