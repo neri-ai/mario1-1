@@ -48,9 +48,18 @@ let block = [];
 // アイテムのリストを作る
 let item = [];
 
+<<<<<<< HEAD
 let enemies = [new Enemy(96, 20, 192, -16, 0)];	
 
 // オブジェクトを更新する関数
+=======
+let enemy = [];	
+
+// Enemyインスタンスを生成してenemy配列に追加
+enemy.push(new Enemy(96, 10, 128, -1, 0)); // 左に移動する敵
+enemy.push(new Enemy(96, 20, 128, -1, 0));  // 右に移動する敵
+
+>>>>>>> 923c060695fd6ae4e9dc4abf6d6b69bc4bd1d33d
 function updateObj(obj) {
 	// 配列を逆順で処理
 	for (let i = obj.length-1; i >= 0; i--) {
@@ -72,6 +81,7 @@ function update()
 
 	// アイテムの状態を更新
 	updateObj(item);
+	updateObj(enemy);
 
 	// 敵の状態を更新
 	updateObj(enemies);
@@ -114,7 +124,11 @@ function draw()
 	// ブロックとアイテムを描画
 	drawObj(block);
 	drawObj(item);
+<<<<<<< HEAD
 	drawObj(enemies);
+=======
+	drawObj(enemy);
+>>>>>>> 923c060695fd6ae4e9dc4abf6d6b69bc4bd1d33d
 
 	//おじさんを表示
 	ojisan.draw();

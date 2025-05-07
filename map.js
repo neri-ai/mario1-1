@@ -32,6 +32,7 @@ let blType = [
         1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,
 ]
 
+
 class Field {
         constructor() {
                 this.scx = 0;
@@ -52,6 +53,12 @@ class Field {
 
                 return blType[bl-368]==1?bl:0;
 	}
+
+        isFlag(x, y) {
+                let bl = fieldData[(y>>4)*FIELD_SIZE_W+(x>>4)];
+                if (bl === 494) return true;
+
+        }
 
         // ブロック1つ描画
         drawBlock(bl, px, py) {

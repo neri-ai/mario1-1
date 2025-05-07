@@ -61,6 +61,10 @@ class Ojisan
 
 		let p = this.type==TYPE_MINI?24:9;
 
+		if ( field.isBlock(lx+15, ly+p)){ 
+			console.log("test");
+		}
+
 		if ( field.isBlock(lx+15, ly+p) ||
 		     (this.type==TYPE_BIG && (
 		     field.isBlock(lx+15, ly+15) ||
