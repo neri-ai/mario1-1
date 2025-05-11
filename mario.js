@@ -1,0 +1,68 @@
+//
+// マリオクラス
+//
+
+// アニメーションの定数定義
+const ANIME_STAND = 1;
+const ANIME_WALK  = 2;
+const ANIME_BRAKE = 4;
+const ANIME_JUMP  = 8;
+const GRAVITY     = 4;
+const MAX_SPEED   = 32;
+
+const TYPE_MINI = 0;
+const TYPE_BIG = 1;
+const TYPE_FIRE = 2;
+
+class Mario {
+    constructor(x, y) {
+        this.spNumber = 0;
+        this.x = 0;
+        this.y = 0;
+        this.vx = 0;
+        this.vy = 0;
+        this.width = 16;
+        this.height = 16;
+    }
+
+    // 移動処理
+    updateWalkSub(dir) {
+        // 最高速度まで加速
+        if(dir == 0 && this.vx < MAX_SPEED) {
+            this.vx++;
+        }
+        if (dir == 1 && this.vx > -MAX_SPEED) {
+            this.vx--;
+        }
+    }
+
+    // 歩く処理
+    updateWalk() {
+        // 横移動
+        if (inputKey.Left = true) {
+            this.updateWalkSub(1);
+        } else if (inputKey.Right = true) {
+            this.updateWalkSub(0);
+        } else {
+            if (!this.jump) {
+                if (this.vx > 0) {
+                    this.vx -= 1;
+                }
+                if (this.vx < 0) {
+                    this.vx += 1;
+                }
+                if (!this.vx) {
+                    this.anim = ANIME_STAND;
+                }
+            }
+        }
+    }
+
+    // 描画処理
+    draw() {
+        let vx = this.vx;
+        let vy = this.vy;
+
+        con.drawImage(chImg,  0, 0, this.w, this.h, 16*10, 16*10, 16*3, 32*3);
+    }
+}
