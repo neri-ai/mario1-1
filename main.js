@@ -1,3 +1,5 @@
+import Mario from './mario.js'
+
 // canvasの取得(DOMから取得)
 let can = document.getElementById("can");
 let con = can.getContext("2d");
@@ -24,7 +26,12 @@ let chImg = new Image();
 chImg.src = "sprite.png";
 
 // マリオの生成
-let mario = new Mario();
+let mario = new Mario(100, 100, chImg, con);
+
+function update() {
+    mario.update();
+    draw(); 
+}
 
 function draw() {
     // canvasの背景を指定
@@ -40,10 +47,8 @@ function draw() {
     con.fillText("FPS:" + fps, 40, 80);
 
     mario.draw();
-}
 
-function update() {
-    draw(); 
+    console.log(mario.vx);
 }
 
 function animate() {

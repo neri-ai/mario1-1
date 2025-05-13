@@ -8,7 +8,7 @@ class InputKey {
             Down: false
         };
 
-        document.onkeydown = (e) => {
+        document.addEventListener("keydown", (e) => {
             if (e.key === "w") {
                 this.inputKey.Up = true;
             } else if (e.key === "a") {
@@ -16,9 +16,9 @@ class InputKey {
             } else if (e.key === "d") {
                 this.inputKey.Right = true;
             }
-        };
+        });
 
-        document.onkeyup = (e) => {
+        document.addEventListener("keyup", (e) => {
             if (e.key === "w") {
                 this.inputKey.Up = false;
             } else if (e.key === "a") {
@@ -26,6 +26,8 @@ class InputKey {
             } else if (e.key === "d") {
                 this.inputKey.Right = false;
             }
-        };
+        });
     }
 }
+
+export default InputKey;
