@@ -2,24 +2,20 @@
 // マリオクラス
 //
 
-import InputKey from './input.js';
-
-const inputKey = new InputKey();
-
 // アニメーションの定数定義
-const ANIME_STAND = 1;
-const ANIME_WALK  = 2;
-const ANIME_BRAKE = 4;
-const ANIME_JUMP  = 8;
-const GRAVITY     = 4;
+// const ANIME_STAND = 1;
+// const ANIME_WALK  = 2;
+// const ANIME_BRAKE = 4;
+// const ANIME_JUMP  = 8;
+// const GRAVITY     = 4;
 const MAX_SPEED   = 32;
 
-const TYPE_MINI = 0;
-const TYPE_BIG = 1;
-const TYPE_FIRE = 2;
+// const TYPE_MINI = 0;
+// const TYPE_BIG = 1;
+// const TYPE_FIRE = 2;
 
 class Mario {
-    constructor(x, y, image, context) {
+    constructor(x, y, image, context, inputKey) {
         this.spNumber = 0;
         this.x = 300;
         this.y = 300;
@@ -30,44 +26,92 @@ class Mario {
         this.image = image;
         this.con = context;
         this.dir = 0;
+        this.inputKey = inputKey;
+        this.sx = 0;
+        this.sy = 0;
+        this.farameCount = 0;
     }
 
-    // 移動処理
-    updateWalkSub(dir) {
-        // 最高速度まで加速
-        if(dir == 0 && this.vx < MAX_SPEED) {
-            this.vx++;
-        }
-        if (dir == 1 && this.vx > -MAX_SPEED) {
-            this.vx--;
-        }
-    }
+    // // 移動処理
+    // updateWalkSub() {
+    //     // 最高速度まで加速
+    //     if(this.vx < MAX_SPEED) {
+    //         this.vx++;
+    //     }
+    //     if (this.vx > -MAX_SPEED) {
+    //         this.vx--;
+    //     }
+    // }
+
+    // // 歩く処理
+    // updateWalk() {
+    //     // 横移動
+    //     if (inputKey.Left === true) {
+    //         this.updateWalkSub(1);
+    //     } else if (inputKey.Right === true) {
+    //         this.updateWalkSub(0);
+    //     } else {
+    //         if (!this.jump) {
+    //             if (this.vx > 0) {
+    //                 this.vx -= 1;
+    //             }
+    //             if (this.vx < 0) {
+    //                 this.vx += 1;
+    //             }
+    //             if (!this.vx) {
+    //                 this.anim = ANIME_STAND;
+    //             }
+    //         }
+    //     }
+    // }
 
     // 歩く処理
-    updateWalk() {
-        // 横移動
-        if (inputKey.Left === true) {
-            this.updateWalkSub(1);
-        } else if (inputKey.Right === true) {
-            this.updateWalkSub(0);
+    walk() {
+        if (this.inputKey.inputKey.Left === true) {
+            if (this.vx > -MAX_SPEED) {
+                this.vx--;
+            }
+        } else if (this.inputKey.inputKey.Right === true) {
+            if (this.vx < MAX_SPEED) {
+                this.vx += 1;
+            }
         } else {
-            if (!this.jump) {
-                if (this.vx > 0) {
-                    this.vx -= 1;
-                }
-                if (this.vx < 0) {
-                    this.vx += 1;
-                }
-                if (!this.vx) {
-                    this.anim = ANIME_STAND;
-                }
+            if (this.vx > 0) {
+                this.vx -= 1;
+            } else if (this.vx < 0) {
+                this.vx += 1;
             }
         }
     }
 
+    // 歩くアニメーション
+    walkAnimation() {
+        if (this.farameCount % 10 === 0) {
+            if (this.vx > 0) {
+                // sx を 32 → 48 → 64 → 32 とループ
+                if (this.sx < 32) {
+                    this.sx = 32; // 初回は32から開始
+                } else {
+                    this.sx += 16; // 16ずつ増加
+                    if (this.sx > 64) {
+                        this.sx = 32; // 64を超えたら32に戻す
+                    }
+                }
+            } else {
+                this.sx = 0; // 停止時のアニメーション
+            }
+        }
+
+        this.farameCount++;
+        console.log(this.sx);
+    }
+
     // フレームごとの更新処理
     update() {
-        this.updateWalk();
+        // this.updateWalkSub();
+        this.walk();
+
+        this.walkAnimation();
 
         // 座標の変更
         this.x += this.vx;
@@ -76,7 +120,7 @@ class Mario {
 
     // 描画処理
     draw() {
-        this.con.drawImage(this.image, 0, 0, this.width, this.height*2, this.x, this.y, this.width*3, this.height*6);
+        this.con.drawImage(this.image, this.sx, this.sy, this.width, this.height*2, this.x, this.y, this.width*3, this.height*6);
     }
 }
 

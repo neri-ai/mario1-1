@@ -1,4 +1,5 @@
 import Mario from './mario.js'
+import InputKey from './input.js';
 
 // canvasの取得(DOMから取得)
 let can = document.getElementById("can");
@@ -16,6 +17,9 @@ con.msimageSmoothingEnabled     = false;
 con.webkitimageSmoothingEnabled = false;
 con.imageSmoothingEnabled       = false;
 
+// 入力キーの生成
+const inputKey = new InputKey();
+
 // フレームカウント
 let frameCount = 0;
 let lastTime = performance.now();  // 前回のフレームのタイムスタンプ
@@ -26,7 +30,7 @@ let chImg = new Image();
 chImg.src = "sprite.png";
 
 // マリオの生成
-let mario = new Mario(100, 100, chImg, con);
+let mario = new Mario(100, 100, chImg, con, inputKey);
 
 function update() {
     mario.update();
@@ -47,8 +51,6 @@ function draw() {
     con.fillText("FPS:" + fps, 40, 80);
 
     mario.draw();
-
-    console.log(mario.vx);
 }
 
 function animate() {
