@@ -30,6 +30,7 @@ class Mario {
         this.sx = 0;
         this.sy = 0;
         this.farameCount = 0;
+        this.dir = "right";
     }
 
     // // 移動処理
@@ -71,10 +72,12 @@ class Mario {
             if (this.vx > -MAX_SPEED) {
                 this.vx--;
             }
+            this.dir = "left";
         } else if (this.inputKey.inputKey.Right === true) {
             if (this.vx < MAX_SPEED) {
                 this.vx += 1;
             }
+            this.dir = "right";
         } else {
             if (this.vx > 0) {
                 this.vx -= 1;
@@ -86,8 +89,9 @@ class Mario {
 
     // 歩くアニメーション
     walkAnimation() {
-        if (this.farameCount % 10 === 0) {
+        if (this.farameCount % 5 === 0) {
             if (this.vx > 0) {
+                this.sy = 0;
                 // sx を 32 → 48 → 64 → 32 とループ
                 if (this.sx < 32) {
                     this.sx = 32; // 初回は32から開始
@@ -97,8 +101,19 @@ class Mario {
                         this.sx = 32; // 64を超えたら32に戻す
                     }
                 }
+            } else if (this.vx < 0) {
+                this.sy = 48;
+                if (this.sx < 32) {
+                    this.sx = 32;
+                } else {
+                    this.sx += 16;
+                    if (this.sx > 64) {
+                        this.sx = 32;
+                    }
+                }
             } else {
                 this.sx = 0; // 停止時のアニメーション
+                this.sy = this.dir === "left" ? 48 : 0;
             }
         }
 

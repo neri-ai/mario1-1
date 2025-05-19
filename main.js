@@ -11,7 +11,7 @@ const SCREEN_HEIGHT = 224 * 3;
 can.width = SCREEN_WIDTH;
 can.height = SCREEN_HEIGHT;
 
-// 実画面の画像をぼやけさせない設定 
+// 実画面の画像をぼやけさせない設定
 con.mozimageSmoothingEnabled    = false;
 con.msimageSmoothingEnabled     = false;
 con.webkitimageSmoothingEnabled = false;
@@ -56,7 +56,7 @@ function draw() {
 function animate() {
     const currentTime = performance.now();  // 現在のフレームのタイムスタンプ
     const deltaTime = currentTime - lastTime;  // 前回のフレームからの経過時間
-    
+
     // FPSを計算
     // fps = 1000 / deltaTime;  // FPS = 1000ms / deltaTime(ms)
 
@@ -66,10 +66,8 @@ function animate() {
 
         update();
     }
-    
+
     requestAnimationFrame(animate);
-
-
 }
 window.onload = function() {
     animate();        
