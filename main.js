@@ -70,7 +70,7 @@ function animate() {
     requestAnimationFrame(animate);
 }
 window.onload = function() {
-    animate();        
+    animate();
 }
 
 

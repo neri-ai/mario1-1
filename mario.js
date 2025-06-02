@@ -7,7 +7,7 @@
 // const ANIME_WALK  = 2;
 // const ANIME_BRAKE = 4;
 // const ANIME_JUMP  = 8;
-// const GRAVITY     = 4;
+const GRAVITY     = 4;
 const MAX_SPEED   = 32;
 
 // const TYPE_MINI = 0;
@@ -33,39 +33,6 @@ class Mario {
         this.dir = "right";
     }
 
-    // // 移動処理
-    // updateWalkSub() {
-    //     // 最高速度まで加速
-    //     if(this.vx < MAX_SPEED) {
-    //         this.vx++;
-    //     }
-    //     if (this.vx > -MAX_SPEED) {
-    //         this.vx--;
-    //     }
-    // }
-
-    // // 歩く処理
-    // updateWalk() {
-    //     // 横移動
-    //     if (inputKey.Left === true) {
-    //         this.updateWalkSub(1);
-    //     } else if (inputKey.Right === true) {
-    //         this.updateWalkSub(0);
-    //     } else {
-    //         if (!this.jump) {
-    //             if (this.vx > 0) {
-    //                 this.vx -= 1;
-    //             }
-    //             if (this.vx < 0) {
-    //                 this.vx += 1;
-    //             }
-    //             if (!this.vx) {
-    //                 this.anim = ANIME_STAND;
-    //             }
-    //         }
-    //     }
-    // }
-
     // 歩く処理
     walk() {
         if (this.inputKey.inputKey.Left === true) {
@@ -84,6 +51,13 @@ class Mario {
             } else if (this.vx < 0) {
                 this.vx += 1;
             }
+        }
+    }
+
+    // ジャンプ処理
+    jump() {
+        if (this.inputKey.inputKey.Up === true) {
+            this.vy -= 10;
         }
     }
 
@@ -125,8 +99,13 @@ class Mario {
     update() {
         // this.updateWalkSub();
         this.walk();
+        this.jump()
 
         this.walkAnimation();
+
+        if (this.vy <= 0) {
+            this.vy += GRAVITY;
+        }
 
         // 座標の変更
         this.x += this.vx;
